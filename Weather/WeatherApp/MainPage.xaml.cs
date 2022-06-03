@@ -11,6 +11,7 @@ namespace WeatherApp
         {
             InitializeComponent();
             _restService = new RestService();
+            BackgroundColor = Color.LightBlue;
         }
 
         async void OnGetWeatherButtonClicked(object sender, EventArgs e)
@@ -19,6 +20,10 @@ namespace WeatherApp
             {
                 WeatherData weatherData = await _restService.GetWeatherData(GenerateRequestUri(Constants.OpenWeatherMapEndpoint));
                 weatherData.Main.Temperature = Math.Round(((weatherData.Main.Temperature - 32) * 5 / 9), 2);
+                if(weatherData.Weather[0].Visibility == "Clouds")
+                {
+                    weatherData.Weather[0].Visibility += "☁";
+                }
                 BindingContext = weatherData;
             }
         }
