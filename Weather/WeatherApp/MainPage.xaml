@@ -77,29 +77,27 @@
                 <Label Text="Location:" 
                        Style="{StaticResource labelStyle}" TextColor="Black" FontSize="25"/>
                 <Label Text="{Binding Title}" 
-                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline"/>
+                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline" x:Name="labelLocation"/>
 
                 <Label Text="Temperature; °C:"
                        Style="{StaticResource labelStyle}" TextColor="Black" FontSize="25"/>
                 <Label Text="{Binding Main.Temperature}"
-                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline"/>
+                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline" x:Name="labelTemp"/>
 
                 <Label Text="Wind Speed; m/s:" 
                        Style="{StaticResource labelStyle}" TextColor="Black" FontSize="25"/>
                 <Label Text="{Binding Wind.Speed}" 
-                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline"/>
+                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline" x:Name="labelWind"/>
 
                 <Label Text="Humidity; g/m³:" 
                        Style="{StaticResource labelStyle}" TextColor="Black" FontSize="25"/>
                 <Label Text="{Binding Main.Humidity}" 
-                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline"/>
+                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline" x:Name="labelHumidity"/>
 
                 <Label Text="Visibility:" 
                        Style="{StaticResource labelStyle}" TextColor="Black" FontSize="25"/>
                 <Label Text="{Binding Weather[0].Visibility}" 
-                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline"/>
-
-                <Image x:Name="labelImage"/>
+                       Style="{StaticResource labelResultStyle}" TextColor="#000066" TextDecorations="Underline" x:Name="labelVisibility"/>
 
             </StackLayout>
         </ScrollView>

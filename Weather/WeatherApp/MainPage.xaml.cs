@@ -16,38 +16,79 @@ namespace WeatherApp
 
         async void OnGetWeatherButtonClicked(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
+            try
             {
-                WeatherData weatherData = await _restService.GetWeatherData(GenerateRequestUri(Constants.OpenWeatherMapEndpoint));
-                weatherData.Main.Temperature = Math.Round(((weatherData.Main.Temperature - 32) * 5 / 9), 2);
-                if (weatherData.Weather[0].Visibility == "Clouds")
+                if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
                 {
-                    weatherData.Weather[0].Visibility += "☁";
-                }
-                else if (weatherData.Weather[0].Visibility == "Clear")
-                {
-                    weatherData.Weather[0].Visibility += "☉";
-                }
-                else if (weatherData.Weather[0].Visibility == "Mist")
-                {
-                    weatherData.Weather[0].Visibility += "🌫";
-                }
+                    WeatherData weatherData = await _restService.GetWeatherData(GenerateRequestUri(Constants.OpenWeatherMapEndpoint));
+                    weatherData.Main.Temperature = Math.Round(((weatherData.Main.Temperature - 32) * 5 / 9), 2);
+                    if (weatherData.Weather[0].Visibility == "Clouds")
+                    {
+                        weatherData.Weather[0].Visibility += " ☁";
+                    }
+                    else if (weatherData.Weather[0].Visibility == "Clear")
+                    {
+                        weatherData.Weather[0].Visibility += " ☉";
+                    }
+                    else if (weatherData.Weather[0].Visibility == "Mist")
+                    {
+                        weatherData.Weather[0].Visibility += " 🌫";
+                    }
 
 
-                if (weatherData.Main.Temperature < 5)
-                {
-                    labelImage.Source = "https://thumbs.dreamstime.com/b/%D0%BF%D0%B8%D0%BA%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BD%D0%B8%D0%B7%D0%BA%D0%BE%D0%B9-%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%8B-102823864.jpg";
+                    if (weatherData.Main.Temperature < 5)
+                    {
+                        labelTemp.Text = weatherData.Main.Temperature.ToString();
+                        labelTemp.Text += " ❄";
+                    }
+                    else if (weatherData.Main.Temperature >= 5 && weatherData.Main.Temperature <= 14)
+                    {
+                        labelTemp.Text = weatherData.Main.Temperature.ToString();
+                        labelTemp.Text += " 🌌";
+                    }
+                    else
+                    {
+                        labelTemp.Text = weatherData.Main.Temperature.ToString();
+                        labelTemp.Text += " 🔥";
+                    }
+
+
+                    if (weatherData.Main.Pressure > 5)
+                    {
+                        labelWind.Text = weatherData.Wind.Speed.ToString();
+                        labelWind.Text += " 🌬";
+                    }
+                    else
+                    {
+                        labelWind.Text = weatherData.Wind.Speed.ToString();
+                        labelWind.Text += " ⛵";
+                    }
+
+
+                    if (weatherData.Main.Humidity < 40)
+                    {
+                        labelHumidity.Text = weatherData.Main.Humidity.ToString();
+                        labelHumidity.Text += "🏜";
+                    }
+                    else
+                    {
+                        labelHumidity.Text = weatherData.Main.Humidity.ToString();
+                        labelHumidity.Text += "💧";
+                    }
+
+                    labelLocation.Text = weatherData.Title.ToString();
+                    labelVisibility.Text = weatherData.Weather[0].Visibility.ToString();
+                    BindingContext = weatherData;
                 }
-                else if (weatherData.Main.Temperature >= 5 && weatherData.Main.Temperature <= 14)
-                {
-                    labelImage.Source = "https://climate.copernicus.eu/sites/default/files/inline-images/surftemp.png";
-                }
-                else
-                {
-                    labelImage.Source = "https://cdn-icons-png.flaticon.com/512/1035/1035618.png";
-                }
-                BindingContext = weatherData;
             }
+            catch (Exception)
+            {
+                labelLocation.Text = "Wrong city!";
+                labelTemp.Text = "...";
+                labelWind.Text = "...";
+                labelHumidity.Text= "...";
+                labelVisibility.Text = "...";
+            }          
         }
 
         string GenerateRequestUri(string endpoint)
